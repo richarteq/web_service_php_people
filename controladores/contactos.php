@@ -23,9 +23,9 @@ class contactos
         $idUsuario = usuarios::autorizar();
 
         if (empty($peticion[0]))
-            return self::obtenerContactos($idUsuario);
+            return (new contactos)->obtenerContactos($idUsuario);
         else
-            return self::obtenerContactos($idUsuario, $peticion[0]);
+            return (new contactos)->obtenerContactos($idUsuario, $peticion[0]);
 
     }
 
@@ -36,7 +36,7 @@ class contactos
         $body = file_get_contents('php://input');
         $contacto = json_decode($body);
 
-        $idContacto = contactos::crear($idUsuario, $contacto);
+        $idContacto = (new contactos)->crear($idUsuario, $contacto);
 
         http_response_code(201);
         return [
@@ -55,7 +55,7 @@ class contactos
             $body = file_get_contents('php://input');
             $contacto = json_decode($body);
 
-            if (self::actualizar($idUsuario, $contacto, $peticion[0]) > 0) {
+            if ((new contactos)->actualizar($idUsuario, $contacto, $peticion[0]) > 0) {
                 http_response_code(200);
                 return [
                     "estado" => self::CODIGO_EXITO,
@@ -75,7 +75,7 @@ class contactos
         $idUsuario = usuarios::autorizar();
 
         if (!empty($peticion[0])) {
-            if (self::eliminar($idUsuario, $peticion[0]) > 0) {
+            if ((new contactos)->eliminar($idUsuario, $peticion[0]) > 0) {
                 http_response_code(200);
                 return [
                     "estado" => self::CODIGO_EXITO,

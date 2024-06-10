@@ -24,9 +24,9 @@ class usuarios
     public static function post($peticion)
     {
         if ($peticion[0] == 'registro') {
-            return self::registrar();
+            return (new usuarios)->registrar();
         } else if ($peticion[0] == 'login') {
-            return self::loguear();
+            return (new usuarios)->loguear();
         } else {
             throw new ExcepcionApi(self::ESTADO_URL_INCORRECTA, "Url mal formada", 400);
         }
@@ -221,8 +221,8 @@ class usuarios
 
             $claveApi = $cabeceras["Authorization"];
 
-            if (usuarios::validarClaveApi($claveApi)) {
-                return usuarios::obtenerIdUsuario($claveApi);
+            if ((new usuarios)->validarClaveApi($claveApi)) {
+                return (new usuarios)->obtenerIdUsuario($claveApi);
             } else {
                 throw new ExcepcionApi(
                     self::ESTADO_CLAVE_NO_AUTORIZADA, "Clave de API no autorizada", 401);
